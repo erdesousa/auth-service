@@ -28,9 +28,9 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequestDTO body){
         User user = this.userRepository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-        if (passwordEncoder.matches(user.getPassword(), body.password())){
+        if (passwordEncoder.matches(body.password(), user.getPassword())){
             String token = this.tokenService.generateToken(user);
-            return ResponseEntity.ok(new RespondeDTO(user.getEmail(), token));
+            return ResponseEntity.status(200).body(new RespondeDTO(user.getEmail(), token));
         }
         return ResponseEntity.badRequest().build();
     }
@@ -46,7 +46,7 @@ public class UserController {
             this.userRepository.save(newUser);
 
             String token = this.tokenService.generateToken(newUser);
-            return ResponseEntity.ok(new RespondeDTO(newUser.getEmail(), token));
+            return ResponseEntity.status(201).body(new RespondeDTO(newUser.getEmail(), token));
         }
         return ResponseEntity.badRequest().build();
     }
