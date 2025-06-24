@@ -1,7 +1,7 @@
 package com.auth.authservice.security;
 
-import com.auth.authservice.entity.User;
-import com.auth.authservice.repository.UserRepository;
+import com.auth.authservice.entities.User;
+import com.auth.authservice.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

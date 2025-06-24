@@ -1,6 +1,6 @@
 package com.auth.authservice.security;
 
-import com.auth.authservice.entity.User;
+import com.auth.authservice.entities.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;

@@ -1,7 +1,7 @@
 package com.auth.authservice.security;
 
-import com.auth.authservice.entity.User;
-import com.auth.authservice.repository.UserRepository;
+import com.auth.authservice.entities.User;
+import com.auth.authservice.repositories.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

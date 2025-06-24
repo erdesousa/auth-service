@@ -1,4 +1,4 @@
-package com.auth.authservice.entity;
+package com.auth.authservice.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
