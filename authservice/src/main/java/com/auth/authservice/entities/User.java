@@ -20,7 +20,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Email(message = "O email é obrigatório")
+    @NotBlank(message = "O email é obrigatório")
+    @Email(message = "O email deve ser um endereço válido")
     private String email;
 
     @NotBlank(message = "A senha é obrigatória")
