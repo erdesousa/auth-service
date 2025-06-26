@@ -1,6 +1,7 @@
 package com.auth.authservice.security;
 
 import com.auth.authservice.entities.User;
+import com.auth.authservice.exceptions.UserNotFoundException;
 import com.auth.authservice.repositories.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -29,7 +30,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         var login = tokenService.validateToken(token);
 
         if (login != null){
-            User user = userRepository.findByEmail(login).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+            User user = userRepository.findByEmail(login).orElseThrow(UserNotFoundException::new);
             var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
             var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(authentication);

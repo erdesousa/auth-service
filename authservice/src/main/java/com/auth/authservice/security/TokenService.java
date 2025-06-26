@@ -1,6 +1,7 @@
 package com.auth.authservice.security;
 
 import com.auth.authservice.entities.User;
+import com.auth.authservice.exceptions.AuthenticationErrorException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -27,7 +28,7 @@ public class TokenService {
                     .sign(algorithm);
             return token;
         } catch (JWTCreationException exception){
-            throw new RuntimeException("Erro enquanto estava autenticando");
+            throw new AuthenticationErrorException(exception);
         }
     }
 

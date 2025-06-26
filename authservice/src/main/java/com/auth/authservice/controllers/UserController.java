@@ -4,6 +4,7 @@ import com.auth.authservice.dto.LoginRequestDTO;
 import com.auth.authservice.dto.RegisterRequestDTO;
 import com.auth.authservice.dto.RespondeDTO;
 import com.auth.authservice.entities.User;
+import com.auth.authservice.exceptions.UserNotFoundException;
 import com.auth.authservice.repositories.UserRepository;
 import com.auth.authservice.security.TokenService;
 import jakarta.validation.Valid;
@@ -27,7 +28,9 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity login(@Valid @RequestBody LoginRequestDTO body){
-        User user = this.userRepository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        User user = this.userRepository.findByEmail(body.email())
+                .orElseThrow(() -> UserNotFoundException.withEmail(body.email()));
+
         if (passwordEncoder.matches(body.password(), user.getPassword())){
             String token = this.tokenService.generateToken(user);
             return ResponseEntity.status(200).body(new RespondeDTO(user.getEmail(), token));
