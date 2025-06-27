@@ -9,6 +9,7 @@ import com.auth.authservice.exceptions.InvalidPasswordException;
 import com.auth.authservice.exceptions.UserNotFoundException;
 import com.auth.authservice.repositories.UserRepository;
 import com.auth.authservice.security.TokenService;
+import com.auth.authservice.services.UserValidatorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +44,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody RegisterRequestDTO body){
+        UserValidatorService.validateRegisterData(body);
         Optional<User> user = this.userRepository.findByEmail(body.email());
 
         if (user.isEmpty()){
