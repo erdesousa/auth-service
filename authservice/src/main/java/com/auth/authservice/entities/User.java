@@ -19,12 +19,6 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-
-    @NotBlank(message = "O email é obrigatório")
-    @Email(message = "O email deve ser um endereço válido")
     private String email;
-
-    @NotBlank(message = "A senha é obrigatória")
-    @Size(min = 6, message = "A senha deve ter pelo menos 6 caracteres")
     private String password;
 }

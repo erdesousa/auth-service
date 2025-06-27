@@ -1,6 +1,8 @@
 package com.auth.authservice.exceptions.handlers;
 
 import com.auth.authservice.exceptions.AuthenticationErrorException;
+import com.auth.authservice.exceptions.InvalidCredentialsException;
+import com.auth.authservice.exceptions.InvalidPasswordException;
 import com.auth.authservice.exceptions.UserNotFoundException;
 import com.auth.authservice.exceptions.messages.RestErrorMessage;
 import org.springframework.http.HttpStatus;
@@ -21,5 +23,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     private ResponseEntity<RestErrorMessage> authenticationErrorHandles(AuthenticationErrorException exception){
         RestErrorMessage jsonErrorResponse = new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(jsonErrorResponse);
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    private ResponseEntity<RestErrorMessage> invalidCredentialsException(InvalidCredentialsException exception){
+        RestErrorMessage jsonErrorResponse = new RestErrorMessage(HttpStatus.UNAUTHORIZED, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(jsonErrorResponse);
+    }
+
+    public ResponseEntity<RestErrorMessage> invalidPasswordException(InvalidPasswordException exception) {
+        RestErrorMessage jsonErrorResponse = new RestErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(jsonErrorResponse);
     }
 }

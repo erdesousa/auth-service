@@ -1,3 +1,3 @@
 package com.auth.authservice.dto;
 
-public record RespondeDTO (String email, String token) {}
+public record RespondeDTO (String token) {}

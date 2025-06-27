@@ -4,6 +4,8 @@ import com.auth.authservice.dto.LoginRequestDTO;
 import com.auth.authservice.dto.RegisterRequestDTO;
 import com.auth.authservice.dto.RespondeDTO;
 import com.auth.authservice.entities.User;
+import com.auth.authservice.exceptions.InvalidCredentialsException;
+import com.auth.authservice.exceptions.InvalidPasswordException;
 import com.auth.authservice.exceptions.UserNotFoundException;
 import com.auth.authservice.repositories.UserRepository;
 import com.auth.authservice.security.TokenService;
@@ -27,19 +29,20 @@ public class UserController {
     private final TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity login(@Valid @RequestBody LoginRequestDTO body){
+    public ResponseEntity login(@RequestBody LoginRequestDTO body){
         User user = this.userRepository.findByEmail(body.email())
                 .orElseThrow(() -> UserNotFoundException.withEmail(body.email()));
 
         if (passwordEncoder.matches(body.password(), user.getPassword())){
             String token = this.tokenService.generateToken(user);
-            return ResponseEntity.status(200).body(new RespondeDTO(user.getEmail(), token));
+            return ResponseEntity.status(200).body(new RespondeDTO(token));
         }
-        return ResponseEntity.badRequest().build();
+
+        throw new InvalidCredentialsException();
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@Valid @RequestBody RegisterRequestDTO body){
+    public ResponseEntity register(@RequestBody RegisterRequestDTO body){
         Optional<User> user = this.userRepository.findByEmail(body.email());
 
         if (user.isEmpty()){
@@ -49,7 +52,7 @@ public class UserController {
             this.userRepository.save(newUser);
 
             String token = this.tokenService.generateToken(newUser);
-            return ResponseEntity.status(201).body(new RespondeDTO(newUser.getEmail(), token));
+            return ResponseEntity.status(201).body(new RespondeDTO(token));
         }
         return ResponseEntity.badRequest().build();
     }
