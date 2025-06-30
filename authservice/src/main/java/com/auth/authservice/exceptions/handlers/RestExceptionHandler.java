@@ -45,4 +45,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         RestErrorMessage jsonErrorResponse = new RestErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(jsonErrorResponse);
     }
+
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<RestErrorMessage> emailAlreadyExistsException(EmailAlreadyExistsException exception) {
+        RestErrorMessage jsonErrorResponse = new RestErrorMessage(HttpStatus.CONFLICT, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(jsonErrorResponse);
+    }
 }

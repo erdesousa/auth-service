@@ -4,6 +4,7 @@ import com.auth.authservice.dto.LoginRequestDTO;
 import com.auth.authservice.dto.RegisterRequestDTO;
 import com.auth.authservice.dto.RespondeDTO;
 import com.auth.authservice.entities.User;
+import com.auth.authservice.exceptions.EmailAlreadyExistsException;
 import com.auth.authservice.exceptions.InvalidCredentialsException;
 import com.auth.authservice.exceptions.InvalidPasswordException;
 import com.auth.authservice.exceptions.UserNotFoundException;
@@ -56,6 +57,6 @@ public class UserController {
             String token = this.tokenService.generateToken(newUser);
             return ResponseEntity.status(201).body(new RespondeDTO(token));
         }
-        return ResponseEntity.badRequest().build();
+        throw new EmailAlreadyExistsException();
     }
 }
