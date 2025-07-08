@@ -2,16 +2,14 @@ package com.auth.authservice.controllers;
 
 import com.auth.authservice.dto.LoginRequestDTO;
 import com.auth.authservice.dto.RegisterRequestDTO;
-import com.auth.authservice.dto.RespondeDTO;
+import com.auth.authservice.dto.ResponseDTO;
 import com.auth.authservice.entities.User;
 import com.auth.authservice.exceptions.EmailAlreadyExistsException;
 import com.auth.authservice.exceptions.InvalidCredentialsException;
-import com.auth.authservice.exceptions.InvalidPasswordException;
 import com.auth.authservice.exceptions.UserNotFoundException;
 import com.auth.authservice.repositories.UserRepository;
 import com.auth.authservice.security.TokenService;
 import com.auth.authservice.services.UserValidatorService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,7 +35,7 @@ public class UserController {
 
         if (passwordEncoder.matches(body.password(), user.getPassword())){
             String token = this.tokenService.generateToken(user);
-            return ResponseEntity.status(200).body(new RespondeDTO(token));
+            return ResponseEntity.status(200).body(new ResponseDTO(token));
         }
 
         throw new InvalidCredentialsException();
@@ -55,7 +53,7 @@ public class UserController {
             this.userRepository.save(newUser);
 
             String token = this.tokenService.generateToken(newUser);
-            return ResponseEntity.status(201).body(new RespondeDTO(token));
+            return ResponseEntity.status(201).body(new ResponseDTO(token));
         }
 
         throw new EmailAlreadyExistsException();
