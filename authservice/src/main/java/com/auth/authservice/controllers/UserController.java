@@ -57,6 +57,7 @@ public class UserController {
             String token = this.tokenService.generateToken(newUser);
             return ResponseEntity.status(201).body(new RespondeDTO(token));
         }
+
         throw new EmailAlreadyExistsException();
     }
 }
